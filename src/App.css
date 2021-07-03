@@ -1,12 +1,24 @@
-.App {
-  text-align: center;
-  background-color: #d6dbe2;
+body {
+  /* text-align: center; */
+  background-color: #f1f1f1;
   height: 100vh;
 }
 
 #wrapper{
   background-color: #fff;
+  /* position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  min-height: 50%; */
+  box-shadow: 0 1px 2px rgb(0 0 0 / 7%), 0 2px 4px rgb(0 0 0 / 7%), 0 4px 8px rgb(0 0 0 / 7%), 0 8px 16px rgb(0 0 0 / 7%), 0 16px 32px rgb(0 0 0 / 7%), 0 32px 64px rgb(0 0 0 / 7%);;
 }
+.list{
+  list-style-type: none;
+  height: 30rem;
+  overflow-y: scroll;
+}
+
 
 .App-logo {
   height: 40vmin;
@@ -41,4 +53,8 @@
   to {
     transform: rotate(360deg);
   }
+}
+
+#submit-btn{
+  max-height: 54px;
 }

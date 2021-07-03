@@ -1,5 +1,5 @@
 import './App.css';
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 
 let todoList = []
 
@@ -7,6 +7,11 @@ let todoList = []
 function App() {
   const [todo, setTodo] = useState([])
   const [todoArray, submitTodo] = useState(todoList)
+  
+  //If not was succesfully added
+  const text = "Add Note";
+  const [noteSuccess, successHandler] = useState(text);
+  // console.log(noteSuccess)
 
   const deleteTodo = (id) =>{
     //Filter out the deleted todo Item
@@ -16,26 +21,46 @@ function App() {
     submitTodo(newList)
   }
   const onTextChange = (typedText) => setTodo({content: typedText}) 
-  const onSubmit = () => submitTodo([...todoArray, {id:(todoArray.length), content:todo.content}])
-  
+  const onSubmit = () => {
+    // successHandler(!noteSuccess)
+
+    
+    submitTodo([...todoArray, {id:(todoArray.length), content:todo.content}])
+  }
+
+  useEffect(()=>{
+    
+    const timer = setTimeout(()=> {
+        successHandler(text);
+        console.log(noteSuccess)
+    }, 1000);
+    return ()=> clearTimeout(timer);
+    // setTimeout(() => successHandler((noteSuccess) => !noteSuccess), 2000);
+
+  },[noteSuccess])
   return (
-    <div className="App w-100 justify-center">
+    <div className="App w-100">
       <section id="wrapper" className="w-50-l center w-100-ns">
-        <h2 className="ma0">Todo List</h2>
-        <div className="w-100-l">
-          <input className="w-75-l pa3" type="text" onChange={(e)=>{onTextChange(e.target.value)}} />
-          <a href="#0" className="f5 fr no-underline black bg-animate hover-bg-black hover-white inline-flex items-center pa3 ba border-box mr4" onClick={()=>onSubmit()}>
+        <h2 className="ma0 tc">Todo List</h2>
+        <div className="w-100-l mh3 inline-flex items-center">
+          <input id="note-bar" className="w-100 w-70-ns pa3 effect-1" type="text" onChange={(e)=>{onTextChange(e.target.value)}} />
+          <a id="submit-btn" href="#" className="w-100 w-20-ns f5 effect-1 no-underline black bg-animate inline-flex items-center pa3 ba border-box ml2" onClick={
+            ()=>{onSubmit()
+              successHandler("Added")}
+
+            }>
             <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24">
               <path d="M24 10h-10v-10h-4v10h-10v4h10v10h4v-10h10z"/>
-            </svg>          
-            <span class="pl1">Submit</span>
-          </a>
+            </svg>
+            <span className="pl1">{noteSuccess}</span>
+            
+          </a>       
         </div>
         
         <ul class="list ph0 mt0 f4 tl w-100">
           {todoArray.map((item, i)=>(
             <li class="lh-copy pv3 ph4 ba bl-0 bt-0 br-0 b--black-30 w-100" key={i}>{item.content}
-              <a onClick={()=>{deleteTodo(item.id)}} href="#">Delete</a>
+              <a disabled onClick={()=>{deleteTodo(item.id)}} href="#">Delete</a>
             </li>
           ))}
         </ul>
